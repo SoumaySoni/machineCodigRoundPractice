@@ -9,7 +9,7 @@
 
 // has(key) – Return true if key exists
 
-// keys() – Return all keys
+// list() – Return all keys
 
 class KeyValueStore {
     constructor() {
@@ -27,6 +27,21 @@ class KeyValueStore {
 
     }
 
+    get(key) {
+        const Lkey = key.toLowerCase();
+        return this.keyValueStore.get(Lkey)
+    }
+
+    delete(key) {
+        const Lkey = key.toLowerCase();
+        this.keyValueStore.delete(Lkey);
+    }
+
+    has(key) {
+        const Lkey = key.toLowerCase();
+        return this.keyValueStore.has(Lkey);
+    }
+
     list() {
         const result = {};
         for (const [key, value] of this.keyValueStore) {
@@ -34,17 +49,33 @@ class KeyValueStore {
         }
         return result;
     }
-
-    get(key) {
-        const Lkey = key.toLowerCase();
-        return this.keyValueStore.get(Lkey)
-    }
 }
 
-const store = new KeyValueStore()
+const store = new KeyValueStore();
 
-store.set('name', 'soumay')
+// Set values
+store.set('name', 'soumay');
+store.set('city', 'Indore');
+store.set('role', 'developer');
 
-console.log(store.list());
+// Trying to set an existing key (should show warning)
+store.set('name', 'soumay updated');
 
-console.log(store.get("name"))
+// Get values
+console.log("Get 'name':", store.get('name'));           // ✅ should print: soumay
+console.log("Get 'city':", store.get('city'));           // ✅ should print: indore
+console.log("Get 'role':", store.get('role'));           // ✅ should print: developer
+
+// Check existence
+console.log("Has 'name'?", store.has('name'));           // ✅ should print: true
+console.log("Has 'unknown'?", store.has('unknown'));     // ✅ should print: false
+
+// List all
+console.log("All key-value pairs:", store.list());       // ✅ should print all entries as object
+
+// Delete a key
+store.delete('role');
+console.log("After deleting 'role':", store.list());     // ✅ should not include 'role'
+
+// Verify deletion
+console.log("Has 'role'?", store.has('role'));           // ✅ should print: false
