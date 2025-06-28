@@ -1,33 +1,49 @@
+// 📜 Requirements:
+
+// Design a simple contact book with these operations:
+
+// addContact(name, phone) – Add a contact
+
+// deleteContact(name) – Remove a contact
+
+// editContact(name, newPhone) – Update contact's phone
+
+// searchByPrefix(prefix) – Find contacts by name prefix
+
+// listContacts() – Return all contacts
+
+// length() – Return total contact count
+
 class ContactBook {
     constructor() {
         this.contacts = new Map();
     }
 
-    addContact(fname, phone) {
-        const key = fname.toLowerCase();
+    addContact(name, phone) {
+        const key = name.toLowerCase();
         if (this.contacts.has(key)) {
-            console.log("the contact is already in the contact book");
+            console.log("Contact already exists.");
             return;
         }
-        this.contacts.set(key, { fname, phone });
+        this.contacts.set(key, { name, phone });
     }
 
-    listContacts() {
-        return Array.from(this.contacts.values());
-    }
-
-    deleteContacts(fname) {
-        const key = fname.toLowerCase();
+    deleteContact(name) {
+        const key = name.toLowerCase();
         if (!this.contacts.has(key)) {
-            console.log("Contact not found");
+            console.log("Contact not found.");
             return;
         }
         this.contacts.delete(key);
     }
 
-
-    length() {
-        return this.contacts.size;
+    editContact(name, newPhone) {
+        const key = name.toLowerCase();
+        if (this.contacts.has(key)) {
+            this.contacts.get(key).phone = newPhone;
+        } else {
+            console.log("Contact not found.");
+        }
     }
 
     searchByPrefix(prefix) {
@@ -39,44 +55,39 @@ class ContactBook {
                 result.push(contact);
             }
         }
-
         return result;
     }
 
-    editContact(fname, newPhone) {
-        let key = fname.toLowerCase();
-        if (this.contacts.has(key)) {
-            this.contacts.get(key).phone = newPhone;
-        } else {
-            console.log("Contact not found");
-        }
+    listContacts() {
+        return Array.from(this.contacts.values());
+    }
+
+    length() {
+        return this.contacts.size;
     }
 }
 
 
 const contacts = new ContactBook();
-contacts.addContact('soumay', 8299421734)
-contacts.addContact('soujay', 7895741822)
 
-// console.log(contacts.listContacts())
-contacts.deleteContacts("soujay")
-// console.log(contacts.listContacts())
-contacts.deleteContacts("soumay")
-// console.log(contacts.listContacts())
+// Add contacts
+contacts.addContact('soumay', 1234567890);
+contacts.addContact('soujay', 7895741822);
 
-contacts.addContact('soumay', 8299421734)
-contacts.addContact('soujay', 7895741822)
+// Delete and check
+contacts.deleteContact("soujay");
+contacts.deleteContact("soumay");
 
-// console.log(contacts.listContacts())
-// console.log(contacts.length())
+// Add more
+contacts.addContact('soumay', 1234567890);
+contacts.addContact('soujay', 7895741822);
+contacts.addContact('soumay1', 7412589630);
+contacts.addContact('soujay1', 7895741822);
 
-contacts.addContact('soumay1', 8299421734)
-contacts.addContact('soujay1', 7895741822)
+// Edit contact
+contacts.editContact('soumay', 1234567890);
 
-// console.log(contacts.length())
-
-// console.log(contacts.searchByPrefix('soumay'))
-
-contacts.editContact('soumay', 123456789);
-
-console.log(contacts.listContacts());
+// Output checks
+console.log("All Contacts:", contacts.listContacts());
+console.log("Total Contacts:", contacts.length());
+console.log("Search by prefix 'sou':", contacts.searchByPrefix('sou'));
